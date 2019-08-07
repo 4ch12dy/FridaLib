@@ -11,13 +11,22 @@ Java.stackid = 0;
 function showCallstack(){
 	function Where(stack){
 		for(var i = 0; i < stack.length; ++i){
-			send(stack[i].toString());
+			XLOG(stack[i].toString());
 		}
 	} 
 	var threadef = Java.use('java.lang.Thread');
 	var threadinstance = threadef.$new();
 	var stack = threadinstance.currentThread().getStackTrace();
-	send("=============================callstack============================="+ Java.stackid.toString());
-	Java.stackid = Java.stackid + 1
-	send("Full call stack:" + Where(stack));
+	XLOG("=====================Callstack # " + Java.stackid.toString() + "========================");
+	Java.stackid = Java.stackid + 1;
+	XLOG(Where(stack));
 }
+
+// xia0 Frida Log
+
+function XLOG(log) {
+	console.log("[I]:" + log );
+}
+
+
+XLOG("Android Frida Lib Loaded!");

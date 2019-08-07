@@ -3,7 +3,9 @@ some useful frida script library for reversing and debug
 
 ### Android
 
-Nothing now
+- androidFridaLib
+
+  some useful frida function in android RE
 
 
 
