@@ -42,11 +42,14 @@ def do_hook():
 				XLOG("Get orig ret:" + retv);
 				return retv;
 			});
+
+			
 			XLOG("Inited Android Java Frida Hook! Waiting for triggle");
 
 		});
-
+		
 	});
+	
 	'''
 	source = loadJSScript('../androidFridaLib.js')
 	

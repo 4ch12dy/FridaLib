@@ -39,12 +39,12 @@ def do_hook():
 					XLOG("App current want to get the service:" + serviceName);
 					showCallstack();
 					// if return null, screnn will be dark
-					return null;
+					// return null;
 				}
 			
 			});
 						
-			XLOG("Inited Android Java Frida Hook! Waiting for triggle");	
+			XLOG("Inited Android Java Frida Hook! Waiting for triggle");		
 	});
 	'''
 	source = loadJSScript('../androidFridaLib.js')
