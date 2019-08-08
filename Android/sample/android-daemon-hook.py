@@ -15,45 +15,20 @@ def do_hook():
 			XLOG("Start Android Java Frida Hook!");
 						
 			var hookClass = Java.use("com.android.server.pm.PackageManagerServiceUtils");
+			// verifySignatures  isApkVerityEnabled
 			
 			xia0Hook(hookClass, 'compareSignatures', function (){
-				//XLOG("call back");
-				
-				var argc = arguments.length;
-				XLOG(argc)
-				return;
-				
-			});
-			
-			xia0Hook(hookClass, 'verifySignatures', function (){
-				//XLOG("call back");
-				//var ret = this.compareSignatures();
-				var argc = arguments.length;
-				XLOG(argc)
-				return;
-			});
-			xia0Hook(hookClass, 'isApkVerityEnabled', function (){
-				//XLOG("call back");
-				
-				var argc = arguments.length;
+				/*
+				var self = arguments[0]; self == this
+				args == arguments[1:] : the args is the left of arguments form 1
+				*/
 				var self = arguments[0];
-				var origRetv = self.isApkVerityEnabled();
-				XLOG("isApkVerityEnabled orig ret:" + self + origRetv);
-				XLOG(argc)
-				return;		
-			});
-			
-			
-			// hook com.android.server.pm.PackageManagerService.installPackageLI
-			hookClass = Java.use("com.android.server.pm.PackageManagerService");
-			
-			xia0Hook(hookClass, 'installPackageLI', function (){
-				//XLOG("call back");
-				
-				var argc = arguments.length;
-				XLOG(argc)
-				return;
-				
+				var arg1 = arguments[1];
+				var arg2 = arguments[2];
+	
+				var retv = self.compareSignatures(arg1, arg2);
+				XLOG("Get orig ret:" + retv);
+				return retv;
 			});
 			XLOG("Inited Android Java Frida Hook! Waiting for triggle");
 
