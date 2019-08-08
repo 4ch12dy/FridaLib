@@ -5,8 +5,20 @@ import time
 import os
 import codecs
 
+def on_message(message, data):
+	if message['type'] == 'send':
+		print("[*] {0}".format(message['payload']))
+	else:
+		print(message)
 
-session=frida.get_usb_device().attach('system_server')
+def loadJSScript(filePath):
+	source = ''
+	script_dir = os.path.dirname(os.path.realpath(__file__))
+	JSHookFile = os.path.join(script_dir, filePath)
+	with codecs.open(JSHookFile, 'r', 'utf-8') as f:
+		source = source + f.read()
+		
+	return source
 
 def do_hook():
 	hook_script = '''
@@ -41,25 +53,9 @@ def do_hook():
 	return hook_script + source
 	
 
-def loadJSScript(filePath):
-	source = ''
-	script_dir = os.path.dirname(os.path.realpath(__file__))
-	JSHookFile = os.path.join(script_dir, filePath)
-	with codecs.open(JSHookFile, 'r', 'utf-8') as f:
-		source = source + f.read()
-		
-	return source
-	
-
-def on_message(message, data):
-	if message['type'] == 'send':
-		print("[*] {0}".format(message['payload']))
-	else:
-		print(message)
-
+session=frida.get_usb_device().attach('system_server')
 
 script = session.create_script(do_hook())
-
 
 script.on("message", on_message)
 time.sleep(1)
