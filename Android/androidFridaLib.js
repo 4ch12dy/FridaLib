@@ -23,10 +23,23 @@ function showCallstack(){
 }
 
 // xia0 Frida Log
-
 function XLOG(log) {
 	console.log("[I]:" + log );
 }
 
+// xia0 frida java hook
+// clz: class want to hook  methd: method of class callbackFunc: do your hook code
+function xia0Hook(clz, methd, callbackFunc){
+	clz[methd].implementation = function (){
+		XLOG("xia0Hook # Hook class:"+ clz + " method:" + methd);
+		
+		var argc = arguments.length;
+		for (var i = 0; i < argc; i++) {
+			XLOG("xia0Hook # args[" + i + "]:"+ arguments[i]);
+		}
+		
+		callbackFunc(arguments);
+	}
+}
 
-XLOG("Android Frida Lib Loaded!");
+XLOG("++++++++++++++++Android Frida Lib Loaded!✅++++++++++++++++");

@@ -12,37 +12,37 @@ def do_hook():
 	hook_script = '''
 	setImmediate(function() {
 		Java.perform(function(){
-			XLOG("Start Android Frida Hook!");
-			// hook com.android.server.pm.PackageManagerServiceUtils.compareSignatures
+			XLOG("Start Android Java Frida Hook!");
+						
 			var hookClass = Java.use("com.android.server.pm.PackageManagerServiceUtils");
-	//		hookClass.compareSignatures.implementation = function (a,b) {
-	//			console.log("==========compareSignatures==========");	
-	//			console.log(a)
-	//			console.log(b)	
-	//			var ret = this.compareSignatures(a,b); 
-	//			console.log('retv='+b)
-	//			showCallstack()
-	//			return ret;
-	//		};
 			
-	//		hookClass.verifySignatures.implementation = function (a,b,c,d,e) {
-	//			console.log("==========verifySignatures==========");	
-	//			console.log(a)
-	//			console.log(b)	
-	//			var ret = this.verifySignatures(a,b,c,d,e); 
-	//			console.log('retv='+b)
-	//			showCallstack()
-	//			return ret;
-	//		};
-	//		hookClass.isApkVerityEnabled.implementation = function () {
-	//			console.log("==========isApkVerityEnabled==========");	
-	//
-	//			var ret = this.isApkVerityEnabled(); 
-	//			console.log('retv='+ret)
-	//			showCallstack()
-	//			ret = false;
-	//			return ret;
-	//		};
+			xia0Hook(hookClass, 'compareSignatures', function (){
+				XLOG("call back");
+				//var ret = this.compareSignatures();
+				var argc = arguments[0].length;
+				
+				XLOG(argc)
+			});
+			
+			hookClass.verifySignatures.implementation = function (a,b,c,d,e) {
+				console.log("==========verifySignatures==========");	
+				console.log(a)
+				console.log(b)	
+				var ret = this.verifySignatures(a,b,c,d,e); 
+				console.log('retv='+b)
+				showCallstack()
+				return ret;
+			};
+	
+			hookClass.isApkVerityEnabled.implementation = function () {
+				console.log("==========isApkVerityEnabled==========");	
+
+				var ret = this.isApkVerityEnabled(); 
+				console.log('retv='+ret)
+				showCallstack()
+				ret = false;
+				return ret;
+			};
 			
 			
 			// hook com.android.server.pm.PackageManagerService.installPackageLI
@@ -56,18 +56,26 @@ def do_hook():
 				showCallstack()
 				return ret;
 			};
-			XLOG("Inited Android Frida Hook! Waiting for triggle");
+			XLOG("Inited Android Java Frida Hook! Waiting for triggle");
 
 		});
 
 	});
 	'''
+	source = loadJSScript('../androidFridaLib.js')
+	
+	return hook_script + source
+	
+
+def loadJSScript(filePath):
 	source = ''
 	script_dir = os.path.dirname(os.path.realpath(__file__))
-	JSHookFile = os.path.join(script_dir, '../androidFridaLib.js')
+	JSHookFile = os.path.join(script_dir, filePath)
 	with codecs.open(JSHookFile, 'r', 'utf-8') as f:
-		source = source + f.read()	
-	return hook_script + source
+		source = source + f.read()
+		
+	return source
+	
 
 def on_message(message, data):
 	if message['type'] == 'send':

@@ -32,9 +32,8 @@ function format(str,width){
 	}
 	return str; 
 }
-	
 
-function get_image_vmaddr_slide(modulePath) {
+function getImageVmaddrSlide(modulePath){
 	// intptr_t   _dyld_get_image_vmaddr_slide(uint32_t image_index)
 	var _dyld_get_image_vmaddr_slide = new NativeFunction(
 		Module.findExportByName("dyld", '_dyld_get_image_vmaddr_slide'),
@@ -323,7 +322,7 @@ function xia0CallStackSymbols(onlyMainModule){
 		dl_symbol = info[2]+""
 		curModulePath = info[0]+""
 
-		var fileAddr = curAddr-get_image_vmaddr_slide(curModulePath);
+		var fileAddr = curAddr-getImageVmaddrSlide(curModulePath);
 
 		// skip frida call stack
 		if(!info[0]){
