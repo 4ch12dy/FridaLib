@@ -32,7 +32,7 @@ function XLOG(log) {
 // callbackFunc: this , args
 function xia0Hook(clz, methd, callbackFunc){
 	clz[methd].implementation = function (){
-		XLOG("xia0Hook # Hook class:"+ clz + " method:" + methd);
+		XLOG("xia0Hook # ⏰ Hooked the class:"+ clz + " method:" + methd );
 		
 		var argc = arguments.length;
 		for (var i = 0; i < argc; i++) {
@@ -45,7 +45,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 0:
 				retv = this[methd]();
 				var newRetv = callbackFunc(this);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -53,7 +53,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 1:
 				retv = this[methd](arguments[0]);
 				var newRetv = callbackFunc(this, arguments[0]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -61,7 +61,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 2:
 				retv = this[methd](arguments[0], arguments[1]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -69,7 +69,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 3:
 				retv = this[methd](arguments[0], arguments[1], arguments[2]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -77,7 +77,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 4:
 				retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2], arguments[3]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -85,7 +85,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 5:
 				retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -93,7 +93,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 6:
 				retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
@@ -101,7 +101,7 @@ function xia0Hook(clz, methd, callbackFunc){
 			case 7:
 				retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
-				if (newRetv != undefined) {
+				if (newRetv !== undefined) {
 					XLOG("xia0Hook # replace origin retv:" + retv + " with new retv:" + newRetv);
 					retv = newRetv;
 				}
