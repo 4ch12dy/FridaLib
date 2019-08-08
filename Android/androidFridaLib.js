@@ -37,8 +37,41 @@ function xia0Hook(clz, methd, callbackFunc){
 		for (var i = 0; i < argc; i++) {
 			XLOG("xia0Hook # args[" + i + "]:"+ arguments[i]);
 		}
-		
+
 		callbackFunc(arguments);
+		
+		switch (argc) {
+			case 0:
+				var retv = this[methd]();
+				break;
+			case 1:
+				var retv = this[methd](arguments[0]);
+				break;
+			case 2:
+				var retv = this[methd](arguments[0], arguments[1]);
+				break;
+			case 3:
+				var retv = this[methd](arguments[0], arguments[1], arguments[2]);
+				break;
+			case 4:
+				var retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3]);
+				break;
+			case 5:
+				var retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+				break;
+			case 6:
+				var retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+				break;
+			case 7:
+				var retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+				break;
+
+			default:
+				XLOG("xia0Hook # Hook class:"+ clz + " method:" + methd + " arguments count bigger than 7?");
+				break;
+		}
+		
+		return retv;
 	}
 }
 
