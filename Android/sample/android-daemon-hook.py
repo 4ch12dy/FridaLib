@@ -19,24 +19,28 @@ def do_hook():
 			xia0Hook(hookClass, 'compareSignatures', function (){
 				//XLOG("call back");
 				
-				var argc = arguments[0].length;
+				var argc = arguments.length;
 				XLOG(argc)
+				return;
 				
 			});
 			
 			xia0Hook(hookClass, 'verifySignatures', function (){
 				//XLOG("call back");
 				//var ret = this.compareSignatures();
-				var argc = arguments[0].length;
+				var argc = arguments.length;
 				XLOG(argc)
-				
+				return;
 			});
 			xia0Hook(hookClass, 'isApkVerityEnabled', function (){
 				//XLOG("call back");
 				
-				var argc = arguments[0].length;
+				var argc = arguments.length;
+				var self = arguments[0];
+				var origRetv = self.isApkVerityEnabled();
+				XLOG("isApkVerityEnabled orig ret:" + self + origRetv);
 				XLOG(argc)
-							
+				return;		
 			});
 			
 			
@@ -46,8 +50,9 @@ def do_hook():
 			xia0Hook(hookClass, 'installPackageLI', function (){
 				//XLOG("call back");
 				
-				var argc = arguments[0].length;
+				var argc = arguments.length;
 				XLOG(argc)
+				return;
 				
 			});
 			XLOG("Inited Android Java Frida Hook! Waiting for triggle");
