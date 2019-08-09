@@ -16,7 +16,7 @@ def on_message(message, data):
 
 def xia0CallStackSymbolsTest():
 	script_dir = os.path.dirname(os.path.realpath(__file__))
-	xia0CallStackSymbolsJS = os.path.join(script_dir, 'xia0CallStackSymbols.js')
+	xia0CallStackSymbolsJS = os.path.join(script_dir, '../iOSFridaLib.js')
 	source = ''
 	with codecs.open(xia0CallStackSymbolsJS, 'r', 'utf-8') as f:
 		source = source + f.read()
