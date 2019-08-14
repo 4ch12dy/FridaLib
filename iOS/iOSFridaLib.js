@@ -11,10 +11,10 @@
 
 // xia0 log
 function XLOG(log) {
-	console.log("" + log)
+	console.log("[*]:" + log)
 }
 
-function LOG(log) {
+function XLibLOG(log) {
 	console.log(log)
 }
 
@@ -301,7 +301,7 @@ function findSymbolFromAddress(modulePath,addr){
 
 function xia0CallStackSymbols(onlyMainModule){
 
-	LOG("================================================xia0CallStackSymbols==========================================")
+	XLOG("================================================xia0CallStackSymbols==========================================")
 	
 	function getExeFileName(modulePath){
 		modulePath += ""
@@ -345,6 +345,6 @@ function xia0CallStackSymbols(onlyMainModule){
 
 		XLOG(format(i, 4)+format(getExeFileName(info[0]), 20)+"mem:"+format(ptr(curAddr),13)+"file:"+format(ptr(fileAddr),13)+format(symbol,80))
 	}
-	LOG("==============================================================================================================")
+	XLOG("==============================================================================================================")
 	return;
 }
