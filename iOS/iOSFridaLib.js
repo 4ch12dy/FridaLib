@@ -345,7 +345,7 @@ function xia0CallStackSymbols(onlyMainModule){
     return;
 }
 
-function xCallStackSymbols(onlyMainModule, context){
+function xCallStackSymbols(context){
     XLOG("================================================xCallStackSymbols==========================================")
     function getExeFileName(modulePath){
         modulePath += ""
