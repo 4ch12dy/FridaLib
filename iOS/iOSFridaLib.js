@@ -232,8 +232,6 @@ function getInfoFromAddress(address){
 }
 
 
-
-
 function findSymbolFromAddress(modulePath,addr){
     var frameAddr = addr
     
@@ -299,9 +297,8 @@ function findSymbolFromAddress(modulePath,addr){
     return symbol;
 }
 
-function xCallStackSymbols(onlyMainModule){
-
-    XLOG("================================================xia0CallStackSymbols==========================================")
+function xia0CallStackSymbols(onlyMainModule){
+    XLOG("================================================xCallStackSymbols==========================================")
     function getExeFileName(modulePath){
         modulePath += ""
         return modulePath.split("/").pop()
@@ -313,9 +310,7 @@ function xCallStackSymbols(onlyMainModule){
     var symbols = threadClass["+ callStackSymbols"]()
     var addrs = threadClass["+ callStackReturnAddresses"]()
     var count = addrs["- count"]();
-    
-    XLOG("get stack frame address, count:"+count)
-    
+
     for(var i = 0, len = count; i < len; i++){
         
         var curAddr = addrs["- objectAtIndex:"](i)["- integerValue"]();
@@ -348,6 +343,46 @@ function xCallStackSymbols(onlyMainModule){
     }
     XLOG("==============================================================================================================")
     return;
+}
+
+function xCallStackSymbols(onlyMainModule, context){
+    XLOG("================================================xCallStackSymbols==========================================")
+    function getExeFileName(modulePath){
+        modulePath += ""
+        return modulePath.split("/").pop()
+    }
+    
+    var mainPath = ObjC.classes.NSBundle.mainBundle().executablePath().UTF8String();
+    var mainModuleName = getExeFileName(mainPath)
+    
+    var backtrace = Thread.backtrace(context, Backtracer.ACCURATE).map(DebugSymbol.fromAddress)
+    for (var i = 0;i < backtrace.length;i ++)
+    {
+        var curStackFrame = backtrace[i] + ''
+        var curSym = curStackFrame.split("!")[1]
+        var curAddr = curStackFrame.split("!")[0].split(" ")[0]
+        var curModuleName = curStackFrame.split("!")[0].split(" ")[1]
+
+        var info = getInfoFromAddress(curAddr);
+        // skip frida call stack
+        if(!info[0]){
+            continue;
+        }
+        
+        var dl_symbol = info[2]+""
+        var curModulePath = info[0]+""
+        
+        var fileAddr = curAddr-getImageVmaddrSlide(curModulePath);
+        
+        // is the image in app dir?
+        if (curModulePath.indexOf(mainModuleName) != -1 ) {
+            curSym = findSymbolFromAddress(curModulePath,curAddr);
+        }
+        XLOG(format(i, 4)+format(getExeFileName(curModulePath), 20)+"mem:"+format(ptr(curAddr),13)+"file:"+format(ptr(fileAddr),13)+format(curSym,80))
+    }
+    XLOG("==============================================================================================================")
+    return
+
 }
 
 XLOG("++++++++++++++++iOS Frida Lib Loaded!✅++++++++++++++++");
