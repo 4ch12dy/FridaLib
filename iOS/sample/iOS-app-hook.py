@@ -10,51 +10,30 @@ NAME_OR_BUNDLEID = "cn.xiaobu.pipiPlay"
 def do_hook():
     return xCallStackSymbolsTest()
     
-def xCallStackSymbolsTest():
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    lib = os.path.join(script_dir, '../iOSFridaLib.js')
-    source = ''
-    with codecs.open(lib, 'r', 'utf-8') as f:
-        source = source + f.read()
-        
-    js = '''
-    if (ObjC.available)
-    {
-        try
-        {
-            //hook - ZYOperationView operationCopyLink
-            var className = "ZYMediaDownloadHelper";
-            var funcName = "+ downloadMediaUrl:isVideo:progress:finishBlock:";
-            var hook = eval('ObjC.classes.' + className + '["' + funcName + '"]');
-            
-            Interceptor.attach(hook.implementation, {
-                onEnter: function(args) {
-                    // args[0] is self
-                    // args[1] is selector (SEL "sendMessageWithText:")
-                    // args[2] holds the first function argument, an NSString
-
-                    // just call [NSThread callStackSymbols]
-                    var threadClass = ObjC.classes.NSThread
-                    var symbols = threadClass["+ callStackSymbols"]()
-                    XLOG(symbols)
-                    
-                    // call  xCallStackSymbols
-                    xCallStackSymbols(this.context);
-                }
-            });
-        }
-        catch(err)
-        {
-                console.log("[!] Exception2: " + err.message);
-        }
-    }
-    else
-    {
-            console.log("Objective-C Runtime is not available!");
-    }
-    '''
+def libFuncTest():
+    return load_js_from_file('./libFuncTest.js')
     
-    return source+js
+def xCallStackSymbolsTest():
+    return load_js_from_file('./xCallStackSymbols.js')
+    
+def load_js_from_file(js_path):
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    lib_path = os.path.join(script_dir, '../iOSFridaLib.js')
+    lib_source = ''
+    with codecs.open(lib_path, 'r', 'utf-8') as f:
+        lib_source = lib_source + f.read()
+        
+    js_path = os.path.join(script_dir, js_path)
+    js_source = ''
+    with codecs.open(js_path, 'r', 'utf-8') as f:
+        js_source = js_source + f.read()
+    return lib_source+js_source
+    
+def on_message(message, data):
+    if message['type'] == 'send':
+        print("[*] {0}".format(message['payload']))
+    else:
+        print(message)
     
 def get_applications(device):
     try:
@@ -69,7 +48,7 @@ def get_usb_iphone():
     Type = 'usb'
     if int(frida.__version__.split('.')[0]) < 12:
         Type = 'tether'
-        
+
     device_manager = frida.get_device_manager()
     changed = threading.Event()
     
@@ -119,6 +98,7 @@ if __name__ == '__main__':
             print("[+] attach app success for pid:{}".format(pid))
                 
             script = session.create_script(do_hook())
+            script.on("message", on_message)
             script.load()
             sys.stdin.read()
         except Exception as e:
