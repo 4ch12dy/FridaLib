@@ -12,9 +12,9 @@ def do_hook():
     
 def xCallStackSymbolsTest():
     script_dir = os.path.dirname(os.path.realpath(__file__))
-    xia0CallStackSymbolsJS = os.path.join(script_dir, '../iOSFridaLib.js')
+    lib = os.path.join(script_dir, '../iOSFridaLib.js')
     source = ''
-    with codecs.open(xia0CallStackSymbolsJS, 'r', 'utf-8') as f:
+    with codecs.open(lib, 'r', 'utf-8') as f:
         source = source + f.read()
         
     js = '''
