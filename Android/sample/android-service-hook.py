@@ -42,7 +42,17 @@ def do_hook():
 				XLOG("Get orig ret:" + retv);
 				return retv;
 			});
+			//android.app.ApplicationPackageManager.getInstalledApplications
+			//android.app.ApplicationPackageManager.getInstalledPackages
+			//android.app.ActivityManager.getRunningServices
+			//android.app.ActivityManager.getRunningTasks
+			//android.app.ActivityManager.getRunningAppProcesses
 			
+			xia0Hook('android.app.ApplicationPackageManager', 'getInstalledApplications', function (){});
+			xia0Hook('android.app.ApplicationPackageManager', 'getInstalledPackages', function (){});
+			xia0Hook('android.app.ActivityManager', 'getRunningServices', function (){});
+			xia0Hook('android.app.ActivityManager', 'getRunningTasks', function (){});
+			xia0Hook('android.app.ActivityManager', 'getRunningAppProcesses', function (){});
 			/*
 			xia0Hook('java.lang.StringBuilder', '$init', function (){
 				XLOG("==============================");

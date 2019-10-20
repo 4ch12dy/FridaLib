@@ -31,18 +31,20 @@ def do_hook():
 				/*
 				var self = arguments[0]; self == this
 				args == arguments[1:] : the args is the left of arguments form 1
-				*/
+				
 				var self = arguments[0];
 				var serviceName = arguments[1];
 				
 				if(serviceName == "window"){
 					XLOG("App current want to get the service:" + serviceName);
-					showCallstack();
+					// showCallstack();
 					// if return null, screnn will be dark
 					// return null;
 				}
-			
+				*/
 			});
+			
+			xia0Hook("com.didi.security.wireless.SecurityLib","nativeCheck",function (){});
 						
 			XLOG("Inited Android Java Frida Hook! Waiting for triggle");		
 	});
@@ -51,10 +53,11 @@ def do_hook():
 	
 	return hook_script + source
 
-app_package = "com.tencent.mm"
+app_package = "com.didi.wsg"
 
 device = frida.get_remote_device()
-pid = device.spawn(app_package)
+#pid = device.spawn(app_package)
+pid = 6969
 session = device.attach(pid)
 
 script = session.create_script(do_hook())
