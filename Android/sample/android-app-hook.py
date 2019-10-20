@@ -25,7 +25,7 @@ def do_hook():
 		Java.perform(function(){
 			XLOG("Start Android Java Frida Hook!");
 			
-			var hookClass = Java.use("android.os.ServiceManager");
+			var hookClass = "android.os.ServiceManager";
 			
 			xia0Hook(hookClass, 'getService', function (){
 				/*

@@ -30,16 +30,17 @@ function XLOG(log) {
 }
 
 function XLibLOG(log) {
-	if (Java.debug !== undefined && Java.debug) {
+	// if (Java.debug !== undefined && Java.debug) {
 		console.log("[*]:" + log );
-	}
+	// }
 }
 /*
 	xia0 frida java hook
 	clz: class want to hook  methd: method of class callbackFunc: do your hook code
 	callbackFunc: this , args
 */
-function xia0SingleHook(clz, methd, callbackFunc){
+function xia0SingleHook(className, methd, callbackFunc){
+	var clz = Java.use(className);
 	clz[methd].implementation = function (){
 		XLibLOG("xia0Hook # ❇️ Hook the class:"+ clz + " method:" + methd );
 		
@@ -76,6 +77,7 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
 				break;
 			case 3:
@@ -85,7 +87,9 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1], arguments[2]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
+
 				break;
 			case 4:
 				var newRetv = callbackFunc(this, arguments[0], arguments[1], arguments[2], arguments[3]);
@@ -94,6 +98,7 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
 				break;
 			case 5:
@@ -103,6 +108,7 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
 				break;
 			case 6:
@@ -112,6 +118,7 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
 				break;
 			case 7:
@@ -121,6 +128,7 @@ function xia0SingleHook(clz, methd, callbackFunc){
 					retv = newRetv;
 				}else {
 					retv = this[methd](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+					XLibLOG("xia0Hook # orig ret:" + retv);
 				}
 				break;
 
@@ -191,6 +199,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func]();
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 1:
@@ -200,6 +209,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 2:
@@ -209,6 +219,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 3:
@@ -218,6 +229,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1], arguments[2]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 4:
@@ -227,6 +239,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1], arguments[2], arguments[3]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 5:
@@ -236,6 +249,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 6:
@@ -245,6 +259,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 					case 7:
@@ -254,6 +269,7 @@ function xia0Hook(className, func, callbackFunc) {
 							retv = newRetv;
 						}else {
 							retv = this[func](arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
+							XLibLOG("xia0Hook # orig ret:" + retv);
 						}
 						break;
 
