@@ -36,19 +36,19 @@ function format(str,width){
 function getImageVmaddrSlide(modulePath){
     // intptr_t   _dyld_get_image_vmaddr_slide(uint32_t image_index)
     var _dyld_get_image_vmaddr_slide = new NativeFunction(
-        Module.findExportByName("dyld", '_dyld_get_image_vmaddr_slide'),
+        Module.findExportByName(null, '_dyld_get_image_vmaddr_slide'),
         'pointer',
         ['uint32']
     );
     // const char*  _dyld_get_image_name(uint32_t image_index) 
     var _dyld_get_image_name = new NativeFunction(
-        Module.findExportByName("dyld", '_dyld_get_image_name'),
+        Module.findExportByName(null, '_dyld_get_image_name'),
         'pointer',
         ['uint32']
     );
     // uint32_t  _dyld_image_count(void)
     var _dyld_image_count = new NativeFunction(
-        Module.findExportByName("dyld", '_dyld_image_count'),
+        Module.findExportByName(null, '_dyld_image_count'),
         'uint32',
         []
     );
