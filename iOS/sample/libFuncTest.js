@@ -30,5 +30,5 @@ if (ObjC.available)
 }
 else
 {
-    console.log("Objective-C Runtime is not available!");
+    console.log("[-] Objective-C Runtime is not available!");
 }
