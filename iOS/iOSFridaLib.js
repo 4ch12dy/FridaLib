@@ -385,4 +385,8 @@ function xCallStackSymbols(context){
 
 }
 
+function xia0Hook() {
+    
+}
+
 XLOG("++++++++++++++++iOS Frida Lib Loaded!✅++++++++++++++++");
