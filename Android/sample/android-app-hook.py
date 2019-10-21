@@ -6,52 +6,29 @@ import os
 import codecs
 
 def on_message(message, data):
-	if message['type'] == 'send':
-		print("[*] {0}".format(message['payload']))
-	else:
-		print(message)
+    if message['type'] == 'send':
+        print("[*] {0}".format(message['payload']))
+    else:
+        print(message)
 
-def loadJSScript(filePath):
-	source = ''
-	script_dir = os.path.dirname(os.path.realpath(__file__))
-	JSHookFile = os.path.join(script_dir, filePath)
-	with codecs.open(JSHookFile, 'r', 'utf-8') as f:
-		source = source + f.read()
-		
-	return source
+def load_js_from_file(js_path):
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    lib_path = os.path.join(script_dir, '../androidFridaLib.js')
+    lib_source = ''
+    with codecs.open(lib_path, 'r', 'utf-8') as f:
+        lib_source = lib_source + f.read()
+        
+    js_path = os.path.join(script_dir, js_path)
+    js_source = ''
+    with codecs.open(js_path, 'r', 'utf-8') as f:
+        js_source = js_source + f.read()
+    return lib_source+js_source
 
 def do_hook():
-	hook_script = '''
-		Java.perform(function(){
-			XLOG("Start Android Java Frida Hook!");
-			
-			var hookClass = "android.os.ServiceManager";
-			
-			xia0Hook(hookClass, 'getService', function (){
-				/*
-				var self = arguments[0]; self == this
-				args == arguments[1:] : the args is the left of arguments form 1
-				
-				var self = arguments[0];
-				var serviceName = arguments[1];
-				
-				if(serviceName == "window"){
-					XLOG("App current want to get the service:" + serviceName);
-					// showCallstack();
-					// if return null, screnn will be dark
-					// return null;
-				}
-				*/
-			});
-			
-			xia0Hook("com.didi.security.wireless.SecurityLib","nativeCheck",function (){});
-						
-			XLOG("Inited Android Java Frida Hook! Waiting for triggle");		
-	});
-	'''
-	source = loadJSScript('../androidFridaLib.js')
-	
-	return hook_script + source
+    
+    source = load_js_from_file('./androidFridaLib.js')
+    
+    return source
 
 app_package = "com.didi.wsg"
 
