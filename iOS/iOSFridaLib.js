@@ -11,7 +11,7 @@
 
 // xia0 log
 function XLOG(log) {
-    console.log("[*]:" + log)
+    console.log("[*] " + log)
 }
 
 function XLibLOG(log) {
