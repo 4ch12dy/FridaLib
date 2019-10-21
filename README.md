@@ -65,5 +65,5 @@ emmmm,  But it just a baby projet. Be glade that you make it grouth with me
 
 - http://4ch12dy.site/2019/07/02/xia0CallStackSymbols/xia0CallStackSymbols/
 - https://github.com/interference-security/frida-scripts
-
 - https://github.com/frida
+- https://github.com/iddoeldor/frida-snippets
