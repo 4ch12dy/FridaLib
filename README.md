@@ -12,6 +12,30 @@ some useful frida script library for reversing and debugging
 - xia0Hook
 
   easy to use hook java and auto log arguments and ret value and so on
+  
+- xia0NativeHook
+
+  Hook native function
+
+- hookRegisterNatives
+
+  print Jni regist java method by hook RegisterNatives in libart
+
+- xia0NativeHookByAddress
+
+  hook native function by address
+
+- bytes2String
+
+  bytes to stirng 
+
+- string2Bytes
+
+  string to bytes
+
+- showFields
+
+  show all java object fields
 
 #### sample 
 
