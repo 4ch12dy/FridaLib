@@ -3,20 +3,61 @@ iOS/android frida library for reversing
 
 ### Android
 
-#### androidFridaLib
+#### funtions in androdFridaLib
 
-| Func                    | Description                                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| showCallstack           | show java call stack                                         |
-| xia0Hook                | easy to use hook java and auto log arguments and ret value and so on |
-| xia0NativeHook          | Hook native function                                         |
-| hookRegisterNatives     | print Jni regist java method by hook RegisterNatives in libart |
-| xia0NativeHookByAddress | hook native function by address                              |
-| bytes2String            | bytes to stirng                                              |
-| string2Bytes            | string to bytes                                              |
-| showFields              | show all java object fields                                  |
+- backtrace : Print java call stack
 
+  ```
+  function backtrace()
+  ```
 
+- java_single_hook : hook java class method and auto log args and return value
+
+  ```
+  function java_single_hook(className, methd, callbackFunc)
+  ```
+
+- java_hook : hook java class all overload methods and auto log args and return value
+
+  ```
+  function java_hook(className, func, callbackFunc)
+  ```
+
+- native_hook_symbol : hook native function by symbol
+
+  ```
+  function native_hook_symbol(moduleName, funcName, onEnterFunc, onLeaveFunc)
+  ```
+
+- native_hook_address : hook native function by address
+
+  ```
+  function native_hook_address(moduleName, funcAddr, onEnterFunc, onLeaveFunc)
+  ```
+
+- print_class_fields : print class object all fields
+
+  ```
+  function print_class_fields(obj)
+  ```
+
+- bytes_to_string : byte data convert to java string
+
+  ```
+  function bytes_to_string(data)
+  ```
+
+- string_to_bytes : string convert to byte data
+
+  ```
+  function string_to_bytes(str)
+  ```
+
+- hook_register_natives : hook RegisterNatives in libart.so
+
+  ```
+  function hook_register_natives()
+  ```
 
 #### sample 
 
@@ -24,24 +65,63 @@ some test script about app and service hook in android
 
 ### iOS
 
-#### iOSFridaLib
+#### funtions in iOSFridaLib
 
-| Func                            | Description                                                  |
-| ------------------------------- | ------------------------------------------------------------ |
-| getImageVmaddrSlide(modulePath) | get slide of given image path                                |
-| getAllClass(modulePath)         | get all class of given image path                            |
-| getAllMethod(classname)         | get all methold(objc, meta) of given class name<br />Objc methold: array[0]<br />Meta methold: array[1] |
-| getInfoFromAddress(address)     | use dladdr to get info of given address                      |
-| findSymbolFromAddress           | try get symbol of address in OC function                     |
-| xCallStackSymbols               | get call stack symbols although symbol striped               |
+- get_image_vm_slide : get image vm address slide 
 
+  ```js
+  function get_image_vm_slide(modulePath)
+  ```
 
+- get_all_objc_class : get all ObjC class by image path
+
+  ```js
+  function get_all_objc_class(modulePath)
+  ```
+
+- get_all_class_methods : get all methods of a class
+
+  ```js
+  function get_all_class_methods(classname)
+  ```
+
+- get_info_form_address : get some info from addr
+
+  ```
+  function get_info_form_address(address)
+  ```
+
+- find_symbol_from_address : find best match objc symbol from address
+
+  ```js
+  function find_symbol_from_address(modulePath,addr)
+  ```
+
+- backtrace 
+
+- ```js
+  function backtrace(onlyMainModule)
+  ```
+
+- xbacktrace : print a symbol call stack 
+
+  ```js
+  function xbacktrace(context)
+  ```
 
 #### sample
 
 this is some test js script loaded into frida python script
 
 you can add your test js script similar to provided easily
+
+
+
+### How to use
+
+you can refer to the sample
+
+
 
 ### Surpise
 

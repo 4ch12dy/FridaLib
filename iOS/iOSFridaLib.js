@@ -33,7 +33,7 @@ function format(str,width){
     return str; 
 }
 
-function getImageVmaddrSlide(modulePath){
+function get_image_vm_slide(modulePath){
     // intptr_t   _dyld_get_image_vmaddr_slide(uint32_t image_index)
     var _dyld_get_image_vmaddr_slide = new NativeFunction(
         Module.findExportByName(null, '_dyld_get_image_vmaddr_slide'),
@@ -70,7 +70,7 @@ function getImageVmaddrSlide(modulePath){
     return 0;
 }
 
-function getAllClass(modulePath){
+function get_all_objc_class(modulePath){
 
     // const char * objc_copyClassNamesForImage(const char *image, unsigned int *outCount)
     var objc_copyClassNamesForImage = new NativeFunction(
@@ -109,7 +109,7 @@ function getAllClass(modulePath){
 }
     
 
-function getAllMethod(classname){
+function get_all_class_methods(classname){
     var objc_getClass = new NativeFunction(
         Module.findExportByName(null, 'objc_getClass'),
         'pointer',
@@ -189,7 +189,7 @@ function getAllMethod(classname){
     return allMethods;
 }
     
-function getInfoFromAddress(address){
+function get_info_form_address(address){
     
     // int dladdr(const void *, Dl_info *);
     
@@ -232,7 +232,7 @@ function getInfoFromAddress(address){
 }
 
 
-function findSymbolFromAddress(modulePath,addr){
+function find_symbol_from_address(modulePath,addr){
     var frameAddr = addr
     
     var theDis = 0xffffffffffffffff;
@@ -244,10 +244,10 @@ function findSymbolFromAddress(modulePath,addr){
     
     var allClassInfo = {}
 
-    var allClass = getAllClass(modulePath);
+    var allClass = get_all_objc_class(modulePath);
     
     for(var i = 0, len = allClass.length; i < len; i++){
-        var mInfo = getAllMethod(allClass[i]);
+        var mInfo = get_all_class_method(allClass[i]);
         var curClassName = allClass[i]
         
         var objms = mInfo[0];
@@ -297,7 +297,7 @@ function findSymbolFromAddress(modulePath,addr){
     return symbol;
 }
 
-function xia0CallStackSymbols(onlyMainModule){
+function backtrace(onlyMainModule){
     XLOG("================================================xCallStackSymbols==========================================")
     function getExeFileName(modulePath){
         modulePath += ""
@@ -314,7 +314,7 @@ function xia0CallStackSymbols(onlyMainModule){
     for(var i = 0, len = count; i < len; i++){
         
         var curAddr = addrs["- objectAtIndex:"](i)["- integerValue"]();
-        var info = getInfoFromAddress(curAddr);
+        var info = get_info_form_address(curAddr);
         // skip frida call stack
         if(!info[0]){
             continue;
@@ -323,17 +323,17 @@ function xia0CallStackSymbols(onlyMainModule){
         var dl_symbol = info[2]+""
         var curModulePath = info[0]+""
         
-        var fileAddr = curAddr-getImageVmaddrSlide(curModulePath);
+        var fileAddr = curAddr-get_image_vm_slide(curModulePath);
 
         if (onlyMainModule) {
             if (curModulePath == mainPath) {
-                var symbol = findSymbolFromAddress(curModulePath,curAddr);
+                var symbol = find_symbol_from_address(curModulePath,curAddr);
             }else{
                 var symbol = info[2];
             }
         }else{
             if((!info[2] || dl_symbol.indexOf("redacted")!=-1) && curModulePath.indexOf("libdyld.dylib") == -1){
-                var symbol = findSymbolFromAddress(curModulePath,curAddr);
+                var symbol = find_symbol_from_address(curModulePath,curAddr);
             }else{
                 var symbol = info[2];
             }
@@ -345,8 +345,8 @@ function xia0CallStackSymbols(onlyMainModule){
     return;
 }
 
-function xCallStackSymbols(context){
-    XLOG("================================================xCallStackSymbols==========================================")
+function xbacktrace(context){
+    XLOG("================================================xbacktrace==========================================")
     function getExeFileName(modulePath){
         modulePath += ""
         return modulePath.split("/").pop()
@@ -363,7 +363,7 @@ function xCallStackSymbols(context){
         var curAddr = curStackFrame.split("!")[0].split(" ")[0]
         var curModuleName = curStackFrame.split("!")[0].split(" ")[1]
 
-        var info = getInfoFromAddress(curAddr);
+        var info = get_info_form_address(curAddr);
         // skip frida call stack
         if(!info[0]){
             continue;
@@ -372,11 +372,11 @@ function xCallStackSymbols(context){
         var dl_symbol = info[2]+""
         var curModulePath = info[0]+""
         
-        var fileAddr = curAddr-getImageVmaddrSlide(curModulePath);
+        var fileAddr = curAddr-get_image_vm_slide(curModulePath);
         
         // is the image in app dir?
         if (curModulePath.indexOf(mainModuleName) != -1 ) {
-            curSym = findSymbolFromAddress(curModulePath,curAddr);
+            curSym = find_symbol_from_address(curModulePath,curAddr);
         }
         XLOG(format(i, 4)+format(getExeFileName(curModulePath), 20)+"mem:"+format(ptr(curAddr),13)+"file:"+format(ptr(fileAddr),13)+format(curSym,80))
     }
@@ -385,8 +385,5 @@ function xCallStackSymbols(context){
 
 }
 
-function xia0Hook() {
-    
-}
 
 XLOG("++++++++++++++++iOS Frida Lib Loaded!✅++++++++++++++++");

@@ -16,7 +16,7 @@ if (ObjC.available)
                 var mainPath = ObjC.classes.NSBundle.mainBundle().executablePath().UTF8String();
                 XLOG(mainPath)
                 
-                var slide = getImageVmaddrSlide(mainPath)
+                var slide = get_image_vm_slide(mainPath)
                 
                 XLOG(slide)
                 

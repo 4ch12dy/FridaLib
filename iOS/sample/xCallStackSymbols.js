@@ -19,7 +19,7 @@ if (ObjC.available)
                 XLOG(symbols)
                 
                 // call  xCallStackSymbols
-                xCallStackSymbols(this.context);
+                xbacktrace(this.context);
             }
         });
     }

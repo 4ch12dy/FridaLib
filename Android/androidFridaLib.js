@@ -10,7 +10,7 @@ Java.stackid = 0;
 Java.debug = undefined;
 
 // show java call stack
-function showCallstack(){
+function backtrace(){
     function Where(stack){
         for(var i = 0; i < stack.length; ++i){
             XLOG(stack[i].toString());
@@ -39,7 +39,7 @@ function XLibLOG(log) {
     clz: class want to hook  methd: method of class callbackFunc: do your hook code
     callbackFunc: this , args
 */
-function xia0SingleHook(className, methd, callbackFunc){
+function java_single_hook(className, methd, callbackFunc){
     var clz = Java.use(className);
     clz[methd].implementation = function (){
         XLibLOG("xia0Hook # ❇️ Hook the class:"+ clz + " method:" + methd );
@@ -150,7 +150,7 @@ callbackFunc: this , args
     
 */
 
-function xia0Hook(className, func, callbackFunc) {
+function java_hook(className, func, callbackFunc) {
     var clazz = Java.use(className);
     var overloads = clazz[func].overloads;
     for (var i in overloads) {
@@ -287,7 +287,7 @@ function xia0Hook(className, func, callbackFunc) {
 /*  
     xia0NativeHook 
 */
-function xia0NativeHook(moduleName, funcName, onEnterFunc, onLeaveFunc) {
+function native_hook_symbol(moduleName, funcName, onEnterFunc, onLeaveFunc) {
     var funcPtr = Module.getExportByName(moduleName, funcName);
     if (funcPtr == null) {
         XLibLOG("xia0NativeHook # Can Not found module:" + moduleName +" func:" + funcName);
@@ -311,7 +311,7 @@ function xia0NativeHook(moduleName, funcName, onEnterFunc, onLeaveFunc) {
 /*  
     xia0NativeHookByAddress
 */
-function xia0NativeHookByAddress(moduleName, funcAddr, onEnterFunc, onLeaveFunc) {
+function native_hook_address(moduleName, funcAddr, onEnterFunc, onLeaveFunc) {
     var libBaseAddr = Module.findBaseAddress(moduleName);
     if (!libBaseAddr) {
         XLibLOG("xia0NativeHookByAddress failed to get base address of "+ moduleName)
@@ -332,7 +332,7 @@ function xia0NativeHookByAddress(moduleName, funcAddr, onEnterFunc, onLeaveFunc)
     });
 }
 
-function showFields(obj){
+function print_class_fields(obj){
 
     var fields = Java.cast(obj.getClass(),Java.use('java.lang.Class')).getDeclaredFields();
     if (fields.length > 0) {
@@ -347,7 +347,7 @@ function showFields(obj){
     }
 }
 
-function bytes2String(data) {
+function bytes_to_string(data) {
     var buffer = Java.array('byte', data);
     var result = "";
     for(var i = 0; i < buffer.length; ++i){
@@ -357,7 +357,7 @@ function bytes2String(data) {
     return result;
 }
 
-function string2Bytes(str) {
+function string_to_bytes(str) {
     var ch, st, re = []; 
     for (var i = 0; i < str.length; i++ ) { 
         ch = str.charCodeAt(i);  
@@ -377,7 +377,7 @@ function string2Bytes(str) {
 // https://github.com/lasting-yang/frida_hook_libart/blob/master/hook_RegisterNatives.js
 var ishook_libart = false;
 
-function hookRegisterNatives(callBackFunc) {
+function hook_register_natives() {
     if (ishook_libart === true) {
         return;
     }

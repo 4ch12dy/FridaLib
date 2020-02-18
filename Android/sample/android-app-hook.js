@@ -3,7 +3,7 @@ Java.perform(function(){
     
     var hookClass = "android.os.ServiceManager";
     
-    xia0Hook(hookClass, 'getService', function (){
+    java_hook(hookClass, 'getService', function (){
         /*
         var self = arguments[0]; self == this
         args == arguments[1:] : the args is the left of arguments form 1
@@ -20,7 +20,7 @@ Java.perform(function(){
         */
     });
     
-    xia0Hook("com.didi.security.wireless.SecurityLib","nativeCheck",function (){});
+    java_hook("com.didi.security.wireless.SecurityLib","nativeCheck",function (){});
                 
     XLOG("Inited Android Java Frida Hook! Waiting for triggle");		
 });
