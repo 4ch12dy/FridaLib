@@ -1,5 +1,5 @@
-# xia0FridaScript
-some useful frida script library for reversing and debugging
+# FridaLib
+iOS/android frida library for reversing
 
 ### Android
 
