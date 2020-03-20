@@ -7,55 +7,55 @@ iOS/android frida library for reversing
 
 - backtrace : Print java call stack
 
-  ```
+  ```js
   function backtrace()
   ```
 
 - java_single_hook : hook java class method and auto log args and return value
 
-  ```
+  ```js
   function java_single_hook(className, methd, callbackFunc)
   ```
 
 - java_hook : hook java class all overload methods and auto log args and return value
 
-  ```
+  ```js
   function java_hook(className, func, callbackFunc)
   ```
 
 - native_hook_symbol : hook native function by symbol
 
-  ```
+  ```js
   function native_hook_symbol(moduleName, funcName, onEnterFunc, onLeaveFunc)
   ```
 
 - native_hook_address : hook native function by address
 
-  ```
+  ```js
   function native_hook_address(moduleName, funcAddr, onEnterFunc, onLeaveFunc)
   ```
 
 - print_class_fields : print class object all fields
 
-  ```
+  ```js
   function print_class_fields(obj)
   ```
 
 - bytes_to_string : byte data convert to java string
 
-  ```
+  ```js
   function bytes_to_string(data)
   ```
 
 - string_to_bytes : string convert to byte data
 
-  ```
+  ```js
   function string_to_bytes(str)
   ```
 
 - hook_register_natives : hook RegisterNatives in libart.so
 
-  ```
+  ```js
   function hook_register_natives()
   ```
 
