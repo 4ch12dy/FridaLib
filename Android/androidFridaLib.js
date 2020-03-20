@@ -482,5 +482,10 @@ function hook_register_natives() {
 
     ishook_libart = true;
 }
+/*
+    below is Frida to read/write std::string and wait for realize
+    https://codeshare.frida.re/@oleavr/read-std-string/
+    https://stek29.rocks/2017/08/07/frida-stdstring.html
+*/
 
 XLOG("++++++++++++++++Android Frida Lib Loaded!✅++++++++++++++++");
