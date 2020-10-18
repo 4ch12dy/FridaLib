@@ -247,7 +247,7 @@ function find_symbol_from_address(modulePath,addr){
     var allClass = get_all_objc_class(modulePath);
     
     for(var i = 0, len = allClass.length; i < len; i++){
-        var mInfo = get_all_class_method(allClass[i]);
+        var mInfo = get_all_class_methods(allClass[i]);
         var curClassName = allClass[i]
         
         var objms = mInfo[0];
