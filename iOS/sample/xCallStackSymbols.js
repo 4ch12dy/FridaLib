@@ -2,26 +2,19 @@ if (ObjC.available)
 {
     try
     {
-        //hook - ZYOperationView operationCopyLink
-        var className = "ZYMediaDownloadHelper";
-        var funcName = "+ downloadMediaUrl:isVideo:progress:finishBlock:";
-        var hook = eval('ObjC.classes.' + className + '["' + funcName + '"]');
+        if ("WCBaseCgi" in ObjC.classes) {
+            // -[WCBaseCgi setRequest:]
+            var WCBaseCgi = ObjC.classes.WCBaseCgi;
+            var setRequest = WCBaseCgi["- setRequest:"];
         
-        Interceptor.attach(hook.implementation, {
-            onEnter: function(args) {
-                // args[0] is self
-                // args[1] is selector (SEL "sendMessageWithText:")
-                // args[2] holds the first function argument, an NSString
-
-                // just call [NSThread callStackSymbols]
-                var threadClass = ObjC.classes.NSThread
-                var symbols = threadClass["+ callStackSymbols"]()
-                XLOG(symbols)
-                
-                // call  xCallStackSymbols
-                xbacktrace(this.context);
-            }
-        });
+            Interceptor.attach(setRequest.implementation, {
+                onEnter: function (args) {
+                    var arg2 = ObjC.Object(args[2]); //GetUserHistoryPageRequest
+                    console.log('-[WCBaseCgi setRequest:' + arg2 + ']');
+                    xbacktrace(this.context);
+                }
+            });
+        }
     }
     catch(err)
     {
