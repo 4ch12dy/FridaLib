@@ -5,7 +5,7 @@ import codecs
 import os
 import threading
 
-NAME_OR_BUNDLEID = "cn.xiaobu.pipiPlay"
+NAME_OR_BUNDLEID = "com.tencent.xin"
 
 def do_hook():
     return xCallStackSymbolsTest()
@@ -39,7 +39,7 @@ def get_applications(device):
     try:
         applications = device.enumerate_applications()
     except Exception as e:
-        print 'Failed to enumerate applications: %s' % e
+        print('Failed to enumerate applications: %s' % e)
         return
 
     return applications
@@ -61,7 +61,7 @@ def get_usb_iphone():
     while device is None:
         devices = [dev for dev in device_manager.enumerate_devices() if dev.type == Type]
         if len(devices) == 0:
-            print 'Waiting for USB device...'
+            print('Waiting for USB device...')
             changed.wait()
         else:
             device = devices[0]
@@ -102,7 +102,7 @@ if __name__ == '__main__':
             script.load()
             sys.stdin.read()
         except Exception as e:
-            print e
+            print(e)
 
     except KeyboardInterrupt:
         sys.exit(0)
